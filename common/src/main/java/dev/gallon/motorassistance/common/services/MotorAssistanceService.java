@@ -86,19 +86,14 @@ public class MotorAssistanceService {
         } else if (attackCount > 0 && wasLeftClicked) {
             attackCount += 1;
 
-            // Calculate the number of attacks per seconds
-            double speed = (double) (attackCount - 1) / config.getAttackInteractionDuration() * 1000;
+            miningTimer.stop();
 
-            if (speed > config.getAttackInteractionSpeed()) {
-                miningTimer.stop();
-
-                // We need to reset the variables that are used to define if the player is interacting because we know
-                // that the user is interacting right now
-                attackCount = 0;
-                attackTimer.stop();
-                interactionTimer.start();// it will reset if already started, so we're all good
-                interactingWith = TargetType.ENTITY;
-            }
+            // We need to reset the variables that are used to define if the player is interacting because we know
+            // that the user is interacting right now
+            attackCount = 0;
+            attackTimer.stop();
+            interactionTimer.start();// it will reset if already started, so we're all good
+            interactingWith = TargetType.ENTITY;
         } else if (attackTimer.timeElapsed(config.getAttackInteractionDuration())) {
             this.attackTimer.stop();
             attackCount = 0;
